@@ -277,3 +277,4 @@ Etat verifie localement :
 - desactiver les logs SQL en production
 - desactiver `spring.jpa.open-in-view` si non necessaire
 # springboot
+# springboot
