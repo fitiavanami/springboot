@@ -1,0 +1,14 @@
+<div th:fragment="footer">
+    <footer class="mt-5 py-4 border-top shadow-sm app-footer">
+        <div class="container text-center">
+            <p class="mb-1 fw-semibold app-footer-title">
+                Application - Gestion CIN
+            </p>
+
+            <p class="mb-0 text-muted small">
+                © <span th:text="${#dates.format(#dates.createNow(),'yyyy')}"></span>
+                Tous droits réservés
+            </p>
+        </div>
+    </footer>
+</div>

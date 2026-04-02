@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content">
+
+    <div class="verify-wrapper">
+
+        <!-- Titre -->
+        <div class="text-center mb-4">
+            <h1 class="container-title">Vérification du citoyen</h1>
+            <p class="verify-subtitle">Informations officielles issues du système</p>
+        </div>
+
+        <!-- Carte principale -->
+        <div class="verify-card">
+
+            <div class="row g-4 align-items-center">
+
+                <!-- Infos citoyen -->
+                <div class="col-md-8">
+
+                    <div class="info-grid">
+
+                        <div class="info-item">
+                            <span class="label">CIN</span>
+                            <span class="value" th:text="${citoyen.cin}"></span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="label">Nom</span>
+                            <span class="value" th:text="${citoyen.nom}"></span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="label">Prénom</span>
+                            <span class="value" th:text="${citoyen.prenom}"></span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="label">Date de naissance</span>
+                            <span class="value"
+                                  th:text="${#temporals.format(citoyen.dateNaissance,'dd/MM/yyyy')}"></span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="label">Lieu de naissance</span>
+                            <span class="value" th:text="${citoyen.lieuNaissance}"></span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="label">Sexe</span>
+                            <span class="badge-sexe" th:text="${citoyen.sexe}"></span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="label">Adresse</span>
+                            <span class="value" th:text="${citoyen.adresse}"></span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="label">Profession</span>
+                            <span class="value" th:text="${citoyen.profession}"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Photo à droite -->
+                <div class="col-md-4 text-center">
+
+                    <div class="photo-card">
+
+                        <img th:if="${citoyen.photo != null and !#strings.isEmpty(citoyen.photo)}"
+                             th:src="@{${citoyen.photo}}"
+                             class="citizen-photo"
+                             alt="Photo citoyen">
+
+                        <div th:if="${citoyen.photo == null or #strings.isEmpty(citoyen.photo)}"
+                             class="photo-placeholder">
+                            <div class="icon">👤</div>
+                            <span>Photo indisponible</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Bouton -->
+            <div class="text-center mt-4">
+                <a th:href="@{/citoyens}" class="btn btn-back">
+                    ← Retour
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

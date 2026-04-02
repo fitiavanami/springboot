@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content">
+
+    <div class="citoyen-wrapper">
+
+        <!-- En-tête -->
+        <div class="page-header mb-4">
+            <h1 class="container-title mb-2">Gestion des citoyens</h1>
+            <p class="container-subtitle mb-0">
+                Recherchez, consultez et gérez facilement la liste des citoyens.
+            </p>
+        </div>
+
+        <!-- Barre outils -->
+        <div class="toolbar-card mb-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                <form method="get" th:action="@{/citoyens}" class="d-flex gap-2 flex-grow-1 search-form">
+                    <input type="text"
+                           name="keyword"
+                           class="form-control search-input"
+                           placeholder="Rechercher nom, prénom ou CIN"
+                           th:value="${keyword}">
+                    <button class="btn btn-search" type="submit">Rechercher</button>
+                </form>
+
+                <div class="d-flex gap-2 flex-wrap">
+                    <a th:if="${isAdmin}" th:href="@{/citoyens/add}" class="btn btn-add">
+                        + Ajouter citoyen
+                    </a>
+
+                    <a th:if="${isAdmin != null and isAdmin}"
+                       th:href="@{/dashboard}"
+                       class="btn btn-dashboard">
+                        Dashboard
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Etat vide -->
+        <div th:if="${#lists.isEmpty(citoyens)}" class="citizen-empty-card text-center">
+            <div class="empty-icon mb-2">🧾</div>
+            <h5 class="mb-2">Aucun citoyen trouvé</h5>
+            <p class="text-muted mb-0">
+                Essayez avec un autre mot-clé ou ajoutez un nouveau citoyen.
+            </p>
+        </div>
+
+        <!-- Liste des citoyens -->
+        <div th:unless="${#lists.isEmpty(citoyens)}" class="row g-4">
+            <div class="col-12 col-md-6 col-lg-6" th:each="c : ${citoyens}">
+                <div class="citizen-modern-card h-100">
+
+                    <!-- Partie principale -->
+                    <div class="citizen-main-row">
+
+                        <!-- Infos -->
+                        <div class="citizen-info-column">
+                            <div class="d-flex justify-content-between align-items-start gap-3 mb-3 flex-wrap">
+                                <div>
+                                    <h4 class="citizen-name mb-1" th:text="${c.nom + ' ' + c.prenom}"></h4>
+                                    <div class="citizen-cin" th:text="'CIN : ' + ${c.cin}"></div>
+                                </div>
+
+                                <span class="gender-badge" th:text="${c.sexe}"></span>
+                            </div>
+
+                            <div class="citizen-info-grid">
+                                <div class="citizen-info-item">
+                                    <span class="citizen-label">Date de naissance</span>
+                                    <span class="citizen-value"
+                                          th:text="${#temporals.format(c.dateNaissance,'dd/MM/yyyy')}"></span>
+                                </div>
+
+                                <div class="citizen-info-item">
+                                    <span class="citizen-label">Lieu de naissance</span>
+                                    <span class="citizen-value" th:text="${c.lieuNaissance}"></span>
+                                </div>
+
+                                <div class="citizen-info-item">
+                                    <span class="citizen-label">Profession</span>
+                                    <span class="citizen-value" th:text="${c.profession}"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Photo -->
+                        <div class="citizen-photo-column">
+                            <div class="citizen-card-photo-zone">
+                                <img th:if="${c.photo != null and !#strings.isEmpty(c.photo)}"
+                                     th:src="@{${c.photo}}"
+                                     class="citizen-photo-right"
+                                     alt="Photo citoyen">
+
+                                <div th:if="${c.photo == null or #strings.isEmpty(c.photo)}"
+                                     class="photo-placeholder-bottom">
+                                    <div class="photo-placeholder-icon">👤</div>
+                                    <div class="photo-placeholder-text">Photo indisponible</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QR Code -->
+                    <div class="citizen-qr-zone">
+                        <div class="qr-title">QR Code</div>
+
+                        <img th:src="@{/qr/citoyen/{id}(id=${c.id})}"
+                             alt="QR Code"
+                             class="citizen-qr-img">
+
+                        <a th:href="@{/verify/citoyen/{id}(id=${c.id})}"
+                           class="btn btn-verify btn-sm">
+                            Vérifier
+                        </a>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="citizen-card-actions">
+                        <a th:if="${isAdmin}"
+                           th:href="@{/citoyens/edit/{id}(id=${c.id})}"
+                           class="btn btn-edit btn-sm">
+                            Modifier
+                        </a>
+
+                        <form th:if="${isAdmin}"
+                              th:action="@{/citoyens/delete/{id}(id=${c.id})}"
+                              method="post"
+                              onsubmit="return confirm('Supprimer ce citoyen ?')">
+                            <button class="btn btn-delete btn-sm" type="submit">
+                                Supprimer
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav th:if="${totalPages > 1}" class="mt-4">
+            <ul class="pagination justify-content-center custom-pagination">
+
+                <li class="page-item"
+                    th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/citoyens(page=${currentPage - 1},keyword=${keyword})}">
+                        Précédent
+                    </a>
+                </li>
+
+                <li class="page-item"
+                    th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/citoyens(page=${i},keyword=${keyword})}"
+                       th:text="${i + 1}">
+                    </a>
+                </li>
+
+                <li class="page-item"
+                    th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/citoyens(page=${currentPage + 1},keyword=${keyword})}">
+                        Suivant
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+    </div>
+
+</div>
+
+</body>
+</html>

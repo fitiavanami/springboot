@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content">
+
+    <div class="citoyen-wrapper">
+        <div class="page-header mb-4 text-center">
+            <h1 class="container-title mb-2"
+                th:text="${isEdit} ? 'Modifier un citoyen' : 'Ajouter un citoyen'">
+                Formulaire citoyen
+            </h1>
+            <p class="container-subtitle mb-0">
+                Renseignez les informations officielles du citoyen dans une interface unifiée.
+            </p>
+        </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <!-- Formulaire modification -->
+            <form th:if="${isEdit}"
+                  th:action="@{/citoyens/edit/{id}(id=${citoyenId})}"
+                  th:object="${citoyen}"
+                  method="post">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">CIN</label>
+                        <input type="text" th:field="*{cin}" class="form-control">
+                        <div class="text-danger small" th:errors="*{cin}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Nom</label>
+                        <input type="text" th:field="*{nom}" class="form-control">
+                        <div class="text-danger small" th:errors="*{nom}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Prénom</label>
+                        <input type="text" th:field="*{prenom}" class="form-control">
+                        <div class="text-danger small" th:errors="*{prenom}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Date de naissance</label>
+                        <input type="date" th:field="*{dateNaissance}" class="form-control">
+                        <div class="text-danger small" th:errors="*{dateNaissance}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Lieu de naissance</label>
+                        <input type="text" th:field="*{lieuNaissance}" class="form-control">
+                        <div class="text-danger small" th:errors="*{lieuNaissance}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Sexe</label>
+                        <select th:field="*{sexe}" class="form-select">
+                            <option value="">-- Choisir --</option>
+                            <option th:each="s : ${T(org.insi.javaspring.model.Sexe).values()}"
+                                    th:value="${s}"
+                                    th:text="${s}">
+                            </option>
+                        </select>
+                        <div class="text-danger small" th:errors="*{sexe}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Adresse</label>
+                        <input type="text" th:field="*{adresse}" class="form-control">
+                        <div class="text-danger small" th:errors="*{adresse}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Profession</label>
+                        <input type="text" th:field="*{profession}" class="form-control">
+                        <div class="text-danger small" th:errors="*{profession}"></div>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Photo</label>
+                        <input type="text" th:field="*{photo}" class="form-control" placeholder="/images/users/default.png">
+                        <div class="text-danger small" th:errors="*{photo}"></div>
+                    </div>
+
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                        <a th:href="@{/citoyens}" class="btn btn-outline-secondary">Retour</a>
+                    </div>
+
+                </div>
+            </form>
+
+            <!-- Formulaire ajout -->
+            <form th:unless="${isEdit}"
+                  th:action="@{/citoyens/add}"
+                  th:object="${citoyen}"
+                  method="post">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">CIN</label>
+                        <input type="text" th:field="*{cin}" class="form-control">
+                        <div class="text-danger small" th:errors="*{cin}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Nom</label>
+                        <input type="text" th:field="*{nom}" class="form-control">
+                        <div class="text-danger small" th:errors="*{nom}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Prénom</label>
+                        <input type="text" th:field="*{prenom}" class="form-control">
+                        <div class="text-danger small" th:errors="*{prenom}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Date de naissance</label>
+                        <input type="date" th:field="*{dateNaissance}" class="form-control">
+                        <div class="text-danger small" th:errors="*{dateNaissance}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Lieu de naissance</label>
+                        <input type="text" th:field="*{lieuNaissance}" class="form-control">
+                        <div class="text-danger small" th:errors="*{lieuNaissance}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Sexe</label>
+                        <select th:field="*{sexe}" class="form-select">
+                            <option value="">-- Choisir --</option>
+                            <option th:each="s : ${T(org.insi.javaspring.model.Sexe).values()}"
+                                    th:value="${s}"
+                                    th:text="${s}">
+                            </option>
+                        </select>
+                        <div class="text-danger small" th:errors="*{sexe}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Adresse</label>
+                        <input type="text" th:field="*{adresse}" class="form-control">
+                        <div class="text-danger small" th:errors="*{adresse}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Profession</label>
+                        <input type="text" th:field="*{profession}" class="form-control">
+                        <div class="text-danger small" th:errors="*{profession}"></div>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Photo</label>
+                        <input type="text" th:field="*{photo}" class="form-control" placeholder="/images/users/default.png">
+                        <div class="text-danger small" th:errors="*{photo}"></div>
+                    </div>
+
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                        <a th:href="@{/citoyens}" class="btn btn-outline-secondary">Retour</a>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+    </div>
+
+</div>
+
+</body>
+</html>

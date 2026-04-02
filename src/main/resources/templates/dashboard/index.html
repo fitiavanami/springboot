@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content">
+
+    <div class="dashboard-wrapper">
+
+        <div class="dashboard-header text-center mb-4">
+            <h1 class="dashboard-title mb-2">Dashboard administratif</h1>
+            <p class="dashboard-subtitle mb-0">
+                Vue d’ensemble des citoyens et des demandes de CIN.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="card dashboard-card dashboard-card-primary h-100 border-0">
+                    <div class="card-body text-center">
+                        <div class="dashboard-icon">👥</div>
+                        <h5 class="dashboard-card-title">Citoyens</h5>
+                        <h2 class="dashboard-number text-primary" th:text="${stats.totalCitoyens}">0</h2>
+                        <p class="dashboard-text mb-0">Nombre total de citoyens</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card dashboard-card dashboard-card-dark h-100 border-0">
+                    <div class="card-body text-center">
+                        <div class="dashboard-icon">📁</div>
+                        <h5 class="dashboard-card-title">Demandes</h5>
+                        <h2 class="dashboard-number text-dark" th:text="${stats.totalDemandes}">0</h2>
+                        <p class="dashboard-text mb-0">Nombre total de demandes</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card dashboard-card dashboard-card-warning h-100 border-0">
+                    <div class="card-body text-center">
+                        <div class="dashboard-icon">⏳</div>
+                        <h5 class="dashboard-card-title">En attente</h5>
+                        <h2 class="dashboard-number text-warning" th:text="${stats.enAttente}">0</h2>
+                        <p class="dashboard-text mb-0">Demandes en attente</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card dashboard-card dashboard-card-info h-100 border-0">
+                    <div class="card-body text-center">
+                        <div class="dashboard-icon">🔄</div>
+                        <h5 class="dashboard-card-title">En cours</h5>
+                        <h2 class="dashboard-number text-info" th:text="${stats.enCours}">0</h2>
+                        <p class="dashboard-text mb-0">Demandes en cours</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card dashboard-card dashboard-card-success h-100 border-0">
+                    <div class="card-body text-center">
+                        <div class="dashboard-icon">✅</div>
+                        <h5 class="dashboard-card-title">Validées</h5>
+                        <h2 class="dashboard-number text-success" th:text="${stats.validees}">0</h2>
+                        <p class="dashboard-text mb-0">Demandes validées</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card dashboard-card dashboard-card-danger h-100 border-0">
+                    <div class="card-body text-center">
+                        <div class="dashboard-icon">❌</div>
+                        <h5 class="dashboard-card-title">Rejetées</h5>
+                        <h2 class="dashboard-number text-danger" th:text="${stats.rejetees}">0</h2>
+                        <p class="dashboard-text mb-0">Demandes rejetées</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mx-auto">
+                <div class="card dashboard-card dashboard-card-purple h-100 border-0">
+                    <div class="card-body text-center">
+                        <div class="dashboard-icon">🖨️</div>
+                        <h5 class="dashboard-card-title">Imprimées</h5>
+                        <h2 class="dashboard-number dashboard-number-purple" th:text="${stats.imprimees}">0</h2>
+                        <p class="dashboard-text mb-0">Demandes imprimées</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="dashboard-actions mt-4 text-center">
+            <a th:href="@{/home}" class="btn btn-return me-2 mb-2">Accueil</a>
+            <a th:href="@{/citoyens}" class="btn btn-dashboard-primary me-2 mb-2">Voir les citoyens</a>
+            <a th:href="@{/demandes}" class="btn btn-dashboard-success mb-2">Voir les demandes</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
